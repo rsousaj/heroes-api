@@ -25,7 +25,7 @@ public class HeroController {
         this.heroService = heroService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public Flux<Hero> getAllHeroes() {
         log.info("Requesting the list of all heroes");
 
@@ -41,7 +41,7 @@ public class HeroController {
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/")
+    @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Mono<Hero> saveHero(@RequestBody Hero hero) {
         log.info("Requesting hero creation: {}", hero.toString());
