@@ -6,11 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableDynamoDBRepositories
-public class HeroesapiApplication {
+public class HeroesApiApplication {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(HeroesapiApplication.class, args);
+		SpringApplication.run(HeroesApiApplication.class, args);
 
 		System.out.println("Heroes API is UP!");
 	}
