@@ -19,6 +19,8 @@ import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
 
+import static br.com.rsousadj.heroesapi.constants.HeroesConstant.*;
+
 import java.util.Arrays;
 
 
@@ -28,7 +30,7 @@ public class HeroesTable {
 
     public static void main(String[] args) throws Exception {
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration())
+                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(ENDPOINT_DYNAMODB, REGION_DYNAMODB))
                 .build();
 
         DynamoDB dynamoDB = new DynamoDB(client);
