@@ -1,7 +1,9 @@
 package br.com.rsousadj.heroesapi.config;
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
@@ -17,11 +19,8 @@ public class DynamoConfig {
     @Value("${amazon.dynamodb.endpoint}")
     private String amazonDynamoDBEndpoint;
 
-    @Value("${aws_access_key_id}")
-    private String amazonAWSAccesskey;
-
-    @Value("${aws_secret_access_key}")
-    private String amazonAWSSecretKey;
+    @Value("${aws_profile}")
+    private String awsProfile;
 
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
@@ -34,7 +33,7 @@ public class DynamoConfig {
     }
 
     @Bean
-    public AWSCredentials amazonAWSCredentials() {
-        return new BasicAWSCredentials(amazonAWSAccesskey, amazonAWSSecretKey);
+    public AWSCredentialsProvider amazonAWSCredentials() {
+        return new ProfileCredentialsProvider(awsProfile);
     }
 }
