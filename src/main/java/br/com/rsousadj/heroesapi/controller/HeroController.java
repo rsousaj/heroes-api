@@ -1,6 +1,7 @@
 package br.com.rsousadj.heroesapi.controller;
 
 import br.com.rsousadj.heroesapi.document.Hero;
+import br.com.rsousadj.heroesapi.exception.HeroNotFoundException;
 import br.com.rsousadj.heroesapi.service.HeroService;
 import com.amazonaws.Response;
 import org.slf4j.Logger;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import javax.validation.Valid;
 
 import static br.com.rsousadj.heroesapi.constants.HeroesConstant.HEROES_ENDPOINT;
 
@@ -33,17 +36,16 @@ public class HeroController {
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<Hero>> getHeroById(@PathVariable String id) {
+    public Mono<ResponseEntity<Hero>> getHeroById(@PathVariable String id) throws HeroNotFoundException {
         log.info("Requesting hero by ID: {}", id);
 
         return heroService.findById(id)
-                .map((hero) -> new ResponseEntity<>(hero, HttpStatus.OK))
-                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .map((hero) -> new ResponseEntity<>(hero, HttpStatus.OK));
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Mono<Hero> saveHero(@RequestBody Hero hero) {
+    public Mono<Hero> saveHero(@RequestBody @Valid Hero hero) {
         log.info("Requesting hero creation: {}", hero.toString());
 
         return heroService.save(hero);
